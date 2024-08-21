@@ -3,7 +3,10 @@ package pageObjects;
 import Unitilities.WaitUtils;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
+import org.junit.platform.commons.logging.Logger;
+import org.junit.platform.commons.logging.LoggerFactory;
 import org.openqa.selenium.By;
+import stepDefinitions.Steps;
 
 import java.time.Duration;
 import java.util.List;
@@ -12,6 +15,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static org.junit.Assert.assertEquals;
 
 public class GamePage {
+    private static final Logger logger = LoggerFactory.getLogger(GamePage.class);
 
     // Locators
     private static final String GOLD_BAR_LOCATOR = "#coin_";
@@ -76,17 +80,6 @@ public class GamePage {
             rightInput.setValue(String.valueOf(rightBars.get(i)));
         }
 
-//        // Handle remaining elements if lists have different sizes
-//        if (leftBars.size() > rightBars.size()) {
-//            for (int i = minSize; i < leftBars.size(); i++) {
-//                $(LOCATOR_ON_LEFT_BOX + leftBars.get(i)).setValue(String.valueOf(leftBars.get(i)));
-//            }
-//        } else if (rightBars.size() > leftBars.size()) {
-//            for (int i = minSize; i < rightBars.size(); i++) {
-//                $(LOCATOR_ON_RIGHT_BOX + rightBars.get(i)).setValue(String.valueOf(rightBars.get(i)));
-//            }
-//        }
-
         weighElements();
     }
 
@@ -94,7 +87,8 @@ public class GamePage {
 
         waitUtils.waitForAlertToPopUp();
         String alertText = switchTo().alert().getText();
-        System.out.println("This is Alert Message: " + " " + alertText);
+        logger.info(() -> alertText + " " + "This is your alert message");
+
         assert alertText.equals(successMessage) : "Alert text does not match. Found: " + alertText;
         switchTo().alert().accept();
     }

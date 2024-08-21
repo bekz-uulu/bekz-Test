@@ -3,6 +3,8 @@ package stepDefinitions;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.platform.commons.logging.Logger;
+import org.junit.platform.commons.logging.LoggerFactory;
 import pageObjects.GamePage;
 
 import java.util.ArrayList;
@@ -16,6 +18,9 @@ public class Steps {
     private static final String BOTH_SIDES_ARE_EQUAL = "=";
 
     private GamePage gamePage = new GamePage();
+
+    private static final Logger logger = LoggerFactory.getLogger(Steps.class);
+
 
     @Given("User is on the gold bars game page called {string}")
     public void userIsOnTheGoldBarsGamePage(String gamePageTitle) {
@@ -74,17 +79,22 @@ public class Steps {
 
             switch (result) {
                 case LEFT_SIDE_IS_HEAVIER:
-                    System.out.println("Bar " + barsToTest.get(i) + " is lighter, hence its a fake");
+                    var message = "Bar " + barsToTest.get(i) + " is lighter, hence its a fake";
+
+                    logger.info(() -> message);
                     gamePage.clickOnBar(barsToTest.get(i + 1));
                     break;
 
                 case RIGHT_SIDE_IS_HEAVIER:
-                    System.out.println("Bar " + barsToTest.get(i + 1) + " is lighter, hence its a fake");
+
+                     message = "Bar " + barsToTest.get(i + 1) + " is lighter, hence its a fake";
+                    logger.info(() -> message);
                     gamePage.clickOnBar(barsToTest.get(i));
                     break;
 
                 case BOTH_SIDES_ARE_EQUAL:
-                    System.out.println("Bars " + barsToTest.get(i) + " and " + barsToTest.get(i + 1) + " are the same. Third bar is the fake one.");
+                    message = "Bars " + barsToTest.get(i) + " and " + barsToTest.get(i + 1) + " are the same. Third bar is the fake one.";
+                    logger.info(() -> message);
                     gamePage.clickOnBar(barsToTest.get(i + 2));
                     break;
 
